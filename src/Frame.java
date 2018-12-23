@@ -19,7 +19,7 @@ public class Frame extends JFrame {
 
 	public void init() {
 		setLayout(new GridLayout(1, 1, 0, 0));
-		final Screen screen = new Screen();
+		final Screen screen = new Screen(this);
 		add(screen);
 		setVisible(true);
 
