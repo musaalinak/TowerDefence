@@ -21,6 +21,8 @@ public class Screen extends JPanel implements Runnable {
 	@Override
 	public void paintComponent(final Graphics g) {
 		if (isFirst) {
+			myWidth = getWidth();
+			myHeight = getHeight();
 			define();
 			isFirst = false;
 
@@ -33,6 +35,7 @@ public class Screen extends JPanel implements Runnable {
 	public void run() {
 		while (true) {
 			if (!isFirst) {
+				room.physic();
 
 			}
 			repaint();
