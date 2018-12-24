@@ -25,7 +25,7 @@ public class Frame extends JFrame {
 
 	}
 
-	public static void main(final String args[]) {
+	public static void main(String args[]) {
 		final Frame frame = new Frame();
 	}
 

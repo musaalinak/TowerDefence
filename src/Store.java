@@ -11,12 +11,30 @@ public class Store {
 	public static int iconSize = 20;
 	public static int iconSpace = 6;
 	public static int icoTextY = 13;
-	public Rectangle[] button = new Rectangle[shopWidth];;
+	public static int itemIn = 4;
+	public static int heldID = -1;
+	public static int [] buttonID = {0 , 0 , 0 , 0 , 0 , 0 , 0 , 0};
+	
+	public Rectangle[] button = new Rectangle[shopWidth];
 	public Rectangle buttonHealth;
 	public Rectangle buttonCoins;
+	
+	public boolean holdsItem = false;
 
 	public Store() {
 		define();
+	}
+	
+	public void click(int mouseButton) {
+		if(mouseButton==1) {
+			for(int i =0;i<button.length;i++) {
+				if(button[i].contains(Screen.mse)) {
+					heldID = buttonID[i];
+					holdsItem = true ;
+				}
+			}
+			
+		}
 	}
 
 	public void define() {
@@ -39,8 +57,11 @@ public class Store {
 				g.setColor(new Color(255, 255, 255, 100));
 				g.fillRect(button[i].x, button[i].y, button[i].width, button[i].height);
 			}
+			
 			g.drawImage(Screen.tileset_res[0], button[i].x, button[i].y, button[i].width, button[i].height, null);
+			g.drawImage(Screen.tileset_air[buttonID[i]], button[i].x + itemIn, button[i].y + itemIn , button[i].width - (itemIn*2), button[i].height - (itemIn*2), null);
 		}
+		
 		g.drawImage(Screen.tileset_res[1], buttonHealth.x, buttonHealth.y, buttonHealth.width, buttonHealth.height,
 				null);
 		g.drawImage(Screen.tileset_res[2], buttonCoins.x, buttonCoins.y, buttonCoins.width, buttonCoins.height, null);

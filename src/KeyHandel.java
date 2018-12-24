@@ -22,7 +22,8 @@ public class KeyHandel implements MouseMotionListener,MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		Screen.store.click(e.getButton());
+		System.out.println("Hey");
 		
 	}
 
@@ -35,7 +36,7 @@ public class KeyHandel implements MouseMotionListener,MouseListener{
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
-		Screen.mse =new Point((e.getX())+ ((Frame.size.width-Screen.myWidth)/2),(e.getY())+((Frame.size.height-Screen.myHeight)/2));
+		Screen.mse =new Point((e.getX())- ((Frame.size.width-Screen.myWidth)/2),(e.getY())-((Frame.size.height-Screen.myHeight)/2));
 	}
 
 	@Override

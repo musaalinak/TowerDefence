@@ -45,7 +45,7 @@ public class Screen extends JPanel implements Runnable {
 		for (int i = 0; i < tileset_air.length; i++) {
 			tileset_air[i] = new ImageIcon("res/tileset_air.png").getImage();
 			tileset_air[i] = createImage(
-					new FilteredImageSource(tileset_ground[i].getSource(), new CropImageFilter(0, 26 * i, 26, 26)));
+					new FilteredImageSource(tileset_air[i].getSource(), new CropImageFilter(0, 26 * i, 26, 26)));
 		}
 		tileset_res[0] = new ImageIcon("res/cell.png").getImage();
 		tileset_res[1] = new ImageIcon("res/heart.png").getImage();
@@ -54,7 +54,7 @@ public class Screen extends JPanel implements Runnable {
 		save.loadSave(new File("save/mission1.ulixava"));
 		for (int i = 0; i < mobs.length; i++) {
 			mobs[i] = new Mob();
-			// mobs[i].spawnMob(0);
+			
 		}
 	}
 
@@ -83,10 +83,10 @@ public class Screen extends JPanel implements Runnable {
 			mobs[i].draw(g);
 		}
 
-		store.draw(g);// darwing the store
+		store.draw(g);// drawing the store
 	}
 
-	public int spawnTime = 2400;
+	public int spawnTime = 1000;
 	public int spawnFrame = 0;
 
 	public void mobSpawner() {
