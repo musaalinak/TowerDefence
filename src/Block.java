@@ -1,10 +1,12 @@
 import java.awt.*;
 
 public class Block extends Rectangle {
-	public int groundID;
-	public int towerSquareSize = 130;
-	public int airID;
 	public Rectangle towerSquare;
+	public int towerSquareSize = 130;
+	public int groundID;
+	public int airID;
+	public int loseTime=100 , loseFrame=0;
+	
 	public int shotMob = -1;
 	public boolean shooting = false;
 
@@ -46,6 +48,27 @@ public class Block extends Rectangle {
 			}
 		}
 
+		if(shooting) {
+			if(loseFrame >= loseTime) {
+				Screen.mobs[shotMob].loseHealth(1);
+				loseFrame = 0;
+			}else {
+				loseFrame +=1;
+			}
+			
+			if(Screen.mobs[shotMob].isDead()) {
+				getMoney(Screen.mobs[shotMob].mobID);
+				
+				shooting = false;
+				shotMob = -1;
+			}
+		}
+		
+		
+	}
+	
+	public void getMoney(int mobID) {
+		Screen.coinage += Value.deathReward[mobID];
 	}
 
 	public void fight(Graphics g) {
@@ -53,12 +76,13 @@ public class Block extends Rectangle {
 			if (airID == Value.airTowerLaser) {
 				g.drawRect(towerSquare.x, towerSquare.y, towerSquare.width, towerSquare.height);
 			}
+		}
 			if (shooting) {
 				g.setColor(new Color(10, 10, 250));
 				g.drawLine(x + width / 2, y + height / 2 - 20,
 						Screen.mobs[shotMob].x + (Screen.mobs[shotMob].width / 2),
 						Screen.mobs[shotMob].y + (Screen.mobs[shotMob].height / 2));
 			}
-		}
+		
 	}
 }

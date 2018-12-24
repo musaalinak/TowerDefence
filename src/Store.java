@@ -58,9 +58,11 @@ public class Store {
 								{
 									Screen.room.block[y][x].airID=heldID;
 									Screen.coinage -=buttonPrice[realID];
+									
 								}
 							}
 						}
+						
 					}
 				}
 			}

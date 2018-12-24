@@ -35,8 +35,9 @@ public class Mob extends Rectangle {
 	}
 
 				public void deleteMob() {
-				
 					inGame = false;
+					direction = right;
+					mobWalk = 0 ;
 			}
 			
 				public void looseHealth() {
@@ -45,7 +46,7 @@ public class Mob extends Rectangle {
 			}
 	
 	public int walkFrame = 0;
-	public int walkSpeed = 10;
+	public int walkSpeed = 25;
 
 	public void physic() {
 		if (walkFrame >= walkSpeed) {
@@ -120,11 +121,36 @@ public class Mob extends Rectangle {
 		}
 
 	}
+	
+	public void loseHealth(int amo) {
+		health -= amo;
+		
+		checkDeath();
+		
+	}
+	public void checkDeath() {
+		if(health == 0) {
+			deleteMob();
+		}
+	}
+	public boolean isDead() {
+		if(inGame) {
+			return false;
+		}else {
+			return true;
+		}
+	}
 
 	public void draw(final Graphics g) {
 		g.drawImage(Screen.tileset_mob[mobID], x, y, width, height, null);
+		
+		//Health Bar..
+		g.setColor(new Color (10,250,10));
+		g.fillRect(x, y-(healthSpace+healthHeight), width, healthHeight);
+		
 		g.setColor(new Color (250,10,10));
 		g.fillRect(x, y-(healthSpace+healthHeight), health, healthHeight);
+		
 		g.setColor(new Color(0,0,0));
 		g.drawRect(x, y-(healthSpace+healthHeight), health-1, healthHeight-1);
 

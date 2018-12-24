@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 public class Screen extends JPanel implements Runnable {
 	public Thread thread = new Thread(this);
 	public static boolean isFirst = true;
-	public static boolean isDebug = true;
+	public static boolean isDebug = false;
 	public static int myWidth, myHeight;
 	public static int coinage = 10, health = 100;
 	public static Image[] tileset_ground = new Image[100];
