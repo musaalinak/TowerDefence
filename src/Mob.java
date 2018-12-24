@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -5,6 +6,7 @@ public class Mob extends Rectangle {
 	public int xC, yC;
 	public int mobSize = 52;
 	public int mobWalk = 0;
+	public int healthSpace=3,healthHeight=6;
 	public int upward = 0, downward = 1, right = 2 , left=3;
 	public int direction = right;
 	public int mobID = Value.mobAir;
@@ -13,6 +15,7 @@ public class Mob extends Rectangle {
 	public boolean hasDownward = false;
 	public boolean hasLeft = false;
 	public boolean hasRight = false;
+	public int health;
 	
 	public Mob() {
 
@@ -28,6 +31,7 @@ public class Mob extends Rectangle {
 		}
 		this.mobID = mobID;
 		inGame = true;
+		this.health=mobSize;
 	}
 
 				public void deleteMob() {
@@ -119,6 +123,10 @@ public class Mob extends Rectangle {
 
 	public void draw(final Graphics g) {
 		g.drawImage(Screen.tileset_mob[mobID], x, y, width, height, null);
+		g.setColor(new Color (250,10,10));
+		g.fillRect(x, y-(healthSpace+healthHeight), health, healthHeight);
+		g.setColor(new Color(0,0,0));
+		g.drawRect(x, y-(healthSpace+healthHeight), health-1, healthHeight-1);
 
 	}
 }

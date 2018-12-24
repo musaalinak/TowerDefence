@@ -13,27 +13,57 @@ public class Store {
 	public static int icoTextY = 13;
 	public static int itemIn = 4;
 	public static int heldID = -1;
-	public static int [] buttonID = {0 , 0 , 0 , 0 , 0 , 0 , 0 , 0};
-	
+	public static int realID = -1;
+	public static int[] buttonID = { Value.airTowerLaser, Value.airAir, Value.airAir, Value.airAir, Value.airAir,
+			Value.airAir, Value.airAir, Value.airTrashCan };
+	public static int[] buttonPrice = { 10, 0, 0, 0, 0, 0, 0, 0 };
+
 	public Rectangle[] button = new Rectangle[shopWidth];
 	public Rectangle buttonHealth;
 	public Rectangle buttonCoins;
-	
+
 	public boolean holdsItem = false;
 
 	public Store() {
 		define();
 	}
-	
+
 	public void click(int mouseButton) {
-		if(mouseButton==1) {
-			for(int i =0;i<button.length;i++) {
-				if(button[i].contains(Screen.mse)) {
-					heldID = buttonID[i];
-					holdsItem = true ;
+		if (mouseButton == 1) {
+			for (int i = 0; i < button.length; i++) {
+				if (button[i].contains(Screen.mse)) {
+					if (buttonID[i] != Value.airAir) {
+						if (buttonID[i] == Value.airTrashCan) {
+							holdsItem = false;
+
+						} else {
+							heldID = buttonID[i];
+							realID=i;
+							holdsItem = true;
+						}
+					}
 				}
 			}
-			
+			if(holdsItem)
+			{
+				if(Screen.coinage>=buttonPrice[realID])
+				{
+					for(int y=0;y<Screen.room.block.length;y++)
+					{
+						for(int x=0;x<Screen.room.block[0].length;x++)
+						{
+							if(Screen.room.block[y][x].contains(Screen.mse))
+							{
+								if(Screen.room.block[y][x].groundID!=Value.groundRoad && Screen.room.block[y][x].airID==Value.airAir)
+								{
+									Screen.room.block[y][x].airID=heldID;
+									Screen.coinage -=buttonPrice[realID];
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -57,11 +87,19 @@ public class Store {
 				g.setColor(new Color(255, 255, 255, 100));
 				g.fillRect(button[i].x, button[i].y, button[i].width, button[i].height);
 			}
-			
+
 			g.drawImage(Screen.tileset_res[0], button[i].x, button[i].y, button[i].width, button[i].height, null);
-			g.drawImage(Screen.tileset_air[buttonID[i]], button[i].x + itemIn, button[i].y + itemIn , button[i].width - (itemIn*2), button[i].height - (itemIn*2), null);
+			if (buttonID[i] != Value.airAir) {
+				g.drawImage(Screen.tileset_air[buttonID[i]], button[i].x + itemIn, button[i].y + itemIn,
+						button[i].width - (itemIn * 2), button[i].height - (itemIn * 2), null);
+			}
+			if (buttonPrice[i] > 0) {
+				g.setColor(new Color(200, 200, 205));
+				g.setFont(new Font("Courier New", Font.BOLD, 14));
+				g.drawString("$" + buttonPrice[i], button[i].x + itemIn, button[i].y + itemIn + 40);
+			}
 		}
-		
+
 		g.drawImage(Screen.tileset_res[1], buttonHealth.x, buttonHealth.y, buttonHealth.width, buttonHealth.height,
 				null);
 		g.drawImage(Screen.tileset_res[2], buttonCoins.x, buttonCoins.y, buttonCoins.width, buttonCoins.height, null);
@@ -69,6 +107,11 @@ public class Store {
 		g.setColor(new Color(255, 255, 255));
 		g.drawString("" + Screen.health, buttonHealth.x + buttonHealth.width + iconSpace, buttonHealth.y + icoTextY);
 		g.drawString("" + Screen.coinage, buttonCoins.x + buttonCoins.width + iconSpace, buttonCoins.y + icoTextY);
+		if (holdsItem) {
+			g.drawImage(Screen.tileset_air[heldID], Screen.mse.x - ((button[0].width - (itemIn * 2)) / 2) + itemIn,
+					Screen.mse.y - ((button[0].width - (itemIn * 2)) / 2) + itemIn, button[0].width - (itemIn * 2),
+					button[0].height - (itemIn * 2), null);
+		}
 	}
 
 }

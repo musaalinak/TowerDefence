@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 public class Screen extends JPanel implements Runnable {
 	public Thread thread = new Thread(this);
 	public static boolean isFirst = true;
+	public static boolean isDebug = true;
 	public static int myWidth, myHeight;
 	public static int coinage = 10, health = 100;
 	public static Image[] tileset_ground = new Image[100];
@@ -54,7 +56,7 @@ public class Screen extends JPanel implements Runnable {
 		save.loadSave(new File("save/mission1.ulixava"));
 		for (int i = 0; i < mobs.length; i++) {
 			mobs[i] = new Mob();
-			
+
 		}
 	}
 
@@ -80,10 +82,20 @@ public class Screen extends JPanel implements Runnable {
 				room.block[room.worldHeight - 1][0].y + room.blockSize);// bottom line
 		room.draw(g);// Drawing the room.
 		for (int i = 0; i < mobs.length; i++) {
-			mobs[i].draw(g);
+			if (mobs[i].inGame) {
+				mobs[i].draw(g);
+			}
 		}
 
 		store.draw(g);// drawing the store
+
+		if (health < 1) {
+			g.setColor(new Color(240, 20, 20));
+			g.fillRect(0, 0, myWidth, myHeight);
+			g.setColor(new Color(0, 0, 0));
+			g.setFont(new Font("Courier New", Font.BOLD, 14));
+			g.drawString("Game over,Unlucky", 10, 10);
+		}
 	}
 
 	public int spawnTime = 1000;
@@ -106,7 +118,7 @@ public class Screen extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			if (!isFirst) {
+			if (!isFirst && health > 0) {
 				room.physic();
 				mobSpawner();
 				for (int i = 0; i < mobs.length; i++) {
