@@ -38,6 +38,7 @@ public class Mob extends Rectangle {
 					inGame = false;
 					direction = right;
 					mobWalk = 0 ;
+					Screen.room.block[0][0].getMoney(mobID);
 			}
 			
 				public void looseHealth() {
@@ -46,7 +47,7 @@ public class Mob extends Rectangle {
 			}
 	
 	public int walkFrame = 0;
-	public int walkSpeed = 25;
+	public int walkSpeed = 30;
 
 	public void physic() {
 		if (walkFrame >= walkSpeed) {

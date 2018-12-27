@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 
 public class Block extends Rectangle {
 	public Rectangle towerSquare;
-	public int towerSquareSize = 130;
+	public int towerSquareSize = 100;
 	public int groundID;
 	public int airID;
 	public int loseTime = 100, loseFrame = 0;
@@ -59,8 +59,6 @@ public class Block extends Rectangle {
 			}
 
 			if (Screen.mobs[shotMob].isDead()) {
-				getMoney(Screen.mobs[shotMob].mobID);
-
 				shooting = false;
 				shotMob = -1;
 				Screen.killed += 1;
@@ -74,12 +72,13 @@ public class Block extends Rectangle {
 		Screen.coinage += Value.deathReward[mobID];
 	}
 
-	public void fight(final Graphics g) {
-		if (Screen.isDebug) {
-			if (airID == Value.airTowerLaser) {
-				g.drawRect(towerSquare.x, towerSquare.y, towerSquare.width, towerSquare.height);
-			}
+	public void fight(Graphics g) {
+
+		if (airID == Value.airTowerLaser) {
+			g.setColor(new Color(0, 0, 0));
+			g.drawRect(towerSquare.x, towerSquare.y, towerSquare.width, towerSquare.height);
 		}
+
 		if (shooting) {
 			g.setColor(new Color(10, 10, 250));
 			g.drawLine(x + (width / 2), y + (height / 2), Screen.mobs[shotMob].x + (Screen.mobs[shotMob].width / 2),

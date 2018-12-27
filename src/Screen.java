@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 public class Screen extends JPanel implements Runnable {
 	public Thread thread = new Thread(this);
 	public static boolean isFirst = true;
-	public static boolean isDebug = false;
 	public static boolean isWin = false;
 	public static int myWidth, myHeight;
 	public static int coinage = 10, health = 100;
@@ -28,7 +27,7 @@ public class Screen extends JPanel implements Runnable {
 	public static Save save;
 	public static Point mse = new Point(0, 0);
 	public static Store store;
-	public static Mob[] mobs = new Mob[100];
+	public static Mob[] mobs = new Mob[30];
 
 	public Screen(final Frame frame) {
 		frame.addMouseListener(new KeyHandel());
@@ -42,6 +41,7 @@ public class Screen extends JPanel implements Runnable {
 			isWin = true;
 			killed = 0;
 			coinage = 0;
+			// level+=1;
 
 		}
 	}
@@ -50,6 +50,8 @@ public class Screen extends JPanel implements Runnable {
 		room = new Room();
 		save = new Save();
 		store = new Store();
+		coinage=10;
+		health=10;
 
 		for (int i = 0; i < tileset_ground.length; i++) {
 			tileset_ground[i] = new ImageIcon("res/tileset_ground.png").getImage();
@@ -113,17 +115,17 @@ public class Screen extends JPanel implements Runnable {
 			g.fillRect(0, 0, getWidth(), getHeight());
 			g.setColor(new Color(0, 0, 0));
 			g.setFont(new Font("Courier New", Font.BOLD, 14));
-			if (level > maxlevel) {
-				g.drawString("You won! Congratulations! Please wait and the window will close", 10, 10);
+			if (level == maxlevel) {
+				g.drawString("You won the whole game! You 1  1  1  1  1  1  1  1  1  1  1  1  may now close the window down", 10, 10);
 			} else {
-				g.drawString("You won the whole game! You may now close the window down", 10, 10);
+				g.drawString("You won! Congratulations! Please wait and the window will close", 10, 10);
 
 			}
 		}
 
 	}
 
-	public int spawnTime = 1000;
+	public int spawnTime = 2500;
 	public int spawnFrame = 0;
 
 	public void mobSpawner() {
@@ -131,6 +133,7 @@ public class Screen extends JPanel implements Runnable {
 			for (int i = 0; i < mobs.length; i++) {
 				if (!mobs[i].inGame) {
 					mobs[i].spawnMob(Value.mobGreeny);
+					
 					break;
 				}
 			}
@@ -155,7 +158,7 @@ public class Screen extends JPanel implements Runnable {
 			} else {
 				if (isWin) {
 					if (winFrame >= winTÝme) {
-						if (level > maxlevel) {
+						if (level == maxlevel) {
 							System.exit(0);
 
 						} else {
